@@ -164,7 +164,7 @@ local function ToggleScoreboard(toggle)
         JoinPlayers:SetSize(150, 20)
  
         JoinPlayers.DoClick = function()
-            RunConsoleCommand("mu_jointeam", "2")
+            RunConsoleCommand("mu_jointeam3", "2")
         end
  
         local spectatorstab = DScrollPanel2:Add("DPanel")
