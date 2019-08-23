@@ -132,6 +132,7 @@ local function ToggleScoreboard(toggle)
         title:Background(Color(0, 0, 0, 0))
         title:DualText(GetHostName(), "Murder_ScoreBoardFont", Color(255, 255, 255, 255), DriedSpongeMurderScoreboardSlogan, "Murder_ScoreBoardFontSmall", Color(200, 200, 200, 200), TEXT_ALIGN_CENTER)
         MurderBoardScoreboard:Text("Map: " .. game.GetMap(), "Murder_ScoreBoardFont", DriedSpongeMurderScoreboardServerTextColor, TEXT_ALIGN_RIGHT, -10, -h / 2.1)
+        MurderBoardScoreboard:Text("Players: "..player.GetCount().."/" .. game.MaxPlayers(), "Murder_ScoreBoardFont", DriedSpongeMurderScoreboardServerTextColor, TEXT_ALIGN_LEFT, 10, -h / 2.1)
         local DScrollPanel = vgui.Create("DScrollPanel", MurderBoardScoreboard)
         DScrollPanel:SetSize(w / 2, MurderBoardScoreboard:GetTall())
         DScrollPanel:Dock(LEFT)
@@ -286,7 +287,8 @@ local function ToggleScoreboard(toggle)
                     optoption:SetIcon("icon16/shield.png")
                     local util, optoption2 = opt:AddSubMenu("Utility")
                     optoption2:SetIcon("icon16/lightning.png")
-
+                    local tp, optoption2 = opt:AddSubMenu("Teleportation")
+                    optoption2:SetIcon("icon16/lightning.png")
                     --Xadmin ADMINISTRATION COMMANDS
                     --Slay
                     if DriedSpongeMurderScoreboardXADMIN == "xadmin" then
@@ -453,7 +455,7 @@ local function ToggleScoreboard(toggle)
                                                      end)    
                                                      gto:SetIcon("icon16/arrow_left.png")
                                                      local brg = tp:AddOption("Bring "..v:Name(), function()
-                                                        RunConsoleCommand(godcmd, v:SteamID())  
+                                                        RunConsoleCommand("xadmin_tp", v:SteamID())  
                                                      end)    
                                                      brg:SetIcon("icon16/arrow_right.png")
                                                 end
