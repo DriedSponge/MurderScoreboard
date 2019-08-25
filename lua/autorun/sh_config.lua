@@ -25,7 +25,8 @@ DriedSpongeMurderScoreboardBG = Color(0, 0, 0, 150)
 --What groups should I have access to admin options? (Forece murderer, kick, ban, move to spectators, etc) Whether or not a user can use certain functions
 --is based on xadmin/ulx permissions
 ScoreBoardAdminGroups = {
-    "superadmin"
+    "superadmin",
+    "Moderator"
 }
 --How long should the menu take to fade in? (Set to 0 for no fade)
 DriedSpongeMurderScoreboardFadeIN = 0.5
