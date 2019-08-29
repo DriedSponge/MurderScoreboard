@@ -18,7 +18,23 @@ surface.CreateFont("Murder_ScoreBoardFont", {
     additive = false,
     outline = false
 })
- 
+surface.CreateFont("Murder_ScoreBoardTOPFont", {
+    font = "Roboto", -- Use the font-name which is shown to you by your operating system Font Viewer, not the file name
+    extended = false,
+    size = 30,
+    weight = 1000,
+    blursize = 0,
+    scanlines = 0,
+    antialias = true,
+    underline = false,
+    italic = false,
+    strikeout = false,
+    symbol = false,
+    rotary = false,
+    shadow = false,
+    additive = false,
+    outline = false
+})
 surface.CreateFont("Murder_ScoreBoardFontPing", {
     font = "Roboto", -- Use the font-name which is shown to you by your operating system Font Viewer, not the file name
     extended = false,
@@ -109,6 +125,7 @@ surface.CreateFont("Murder_ScoreBoardFontSmall2", {
  
 local function ToggleScoreboard(toggle)
     if toggle then
+
         local scrw, scrh = ScrW(), ScrH()
         MurderBoardScoreboard = vgui.Create("DFrame")
         MurderBoardScoreboard:SetTitle("")
@@ -126,12 +143,12 @@ local function ToggleScoreboard(toggle)
         MurderBoardScoreboard:Background(DriedSpongeMurderScoreboardBG)
         local title = vgui.Create("DPanel", MurderBoardScoreboard)
         title:Dock(TOP)
-        title:SetSize(w / 2, h * .06)
+        title:SetSize(w / 2, h * .07)
         title:SetPos()
         title:TDLib()
         title:ClearPaint()
         title:Background(Color(0, 0, 0, 0))
-        title:DualText(GetHostName(), "Murder_ScoreBoardFont", Color(255, 255, 255, 255), DriedSpongeMurderScoreboardSlogan, "Murder_ScoreBoardFontSmall", Color(200, 200, 200, 200), TEXT_ALIGN_CENTER)
+        title:DualText(GetHostName(), "Murder_ScoreBoardTOPFont", Color(255, 255, 255, 255), DriedSpongeMurderScoreboardSlogan, "Murder_ScoreBoardFontSmall", Color(200, 200, 200, 200), TEXT_ALIGN_CENTER)
         MurderBoardScoreboard:Text("Map: " .. game.GetMap(), "Murder_ScoreBoardFont", DriedSpongeMurderScoreboardServerTextColor, TEXT_ALIGN_RIGHT, -10, -h / 2.1)
         MurderBoardScoreboard:Text("Players: "..player.GetCount().."/" .. game.MaxPlayers(), "Murder_ScoreBoardFont", DriedSpongeMurderScoreboardServerTextColor, TEXT_ALIGN_LEFT, 10, -h / 2.1)
         local DScrollPanel = vgui.Create("DScrollPanel", MurderBoardScoreboard)
@@ -151,7 +168,7 @@ local function ToggleScoreboard(toggle)
         playerstab:TDLib()
         playerstab:ClearPaint()
         playerstab:Background(Color(0, 0, 0, 0))
-        playerstab:Text("Players:", "Murder_ScoreBoardFontSmall2", DriedSpongeMurderScoreboardPlayerTitleColor, TEXT_ALIGN_CENTER, 0, 0)
+        playerstab:Text("Players", "Murder_ScoreBoardFontSmall2", DriedSpongeMurderScoreboardPlayerTitleColor, TEXT_ALIGN_CENTER, 0, 0)
         local JoinPlayers = vgui.Create("DButton", playerstab)
         JoinPlayers:SetText("Join Players")
         JoinPlayers:TDLib()
@@ -175,7 +192,7 @@ local function ToggleScoreboard(toggle)
         spectatorstab:TDLib()
         spectatorstab:ClearPaint()
         spectatorstab:Background(Color(0, 0, 0, 0))
-        spectatorstab:Text("Spectators:", "Murder_ScoreBoardFontSmall2", DriedSpongeMurderScoreboardSpectatorTitleColor, TEXT_ALIGN_CENTER, 0, 0)
+        spectatorstab:Text("Spectators", "Murder_ScoreBoardFontSmall2", DriedSpongeMurderScoreboardSpectatorTitleColor, TEXT_ALIGN_CENTER, 0, 0)
         local JoinSpectators = vgui.Create("DButton", spectatorstab)
         JoinSpectators:SetText("Join Spectators")
         JoinSpectators:TDLib()
@@ -193,9 +210,7 @@ local function ToggleScoreboard(toggle)
         end
  
         for k, v in pairs(team.GetPlayers(2)) do
-            -- XadminCommands = {
-            --     slay = { cmdname = "Slay", frametitle = "Reason",  func = function(self) RunConsoleCommand("xadmin_slay", v:SteamID(), self:GetValue())  end, time = false}
-            --     }
+     
             local playerpanel = DScrollPanel:Add("DButton")
             playerpanel:SetSize(w, h * .11)
             playerpanel:Dock(TOP)
@@ -211,15 +226,8 @@ local function ToggleScoreboard(toggle)
             playerpanel.DoClick = function()
                 opt = DermaMenu()
                 opt:Open(gui.MouseX(), gui.MouseY(), "", ownerpanel)
- 
-                --Open Steam profile button
-                local steampro = opt:AddOption("Open Steam Profile", function()
-                    v:ShowProfile()
-                end)
- 
-                steampro:SetIcon("materials/icons/steamlogo.png")
- 
-                --mute button
+                
+                
                 if v ~= LocalPlayer() and v:IsMuted() then
                         local unmute = opt:AddOption("Un-Mute", function()
                             v:SetMuted(false)
@@ -235,76 +243,83 @@ local function ToggleScoreboard(toggle)
                         mute:SetIcon("icon16/sound_mute.png")
                     end
                 end
- 
+                local NonAdminOptions = {}
+                NonAdminOptions[1] = {name = "Open Steam Profile", icon = "materials/icons/steamlogo.png", does = function() v:ShowProfile()end}
+        
+            for a,b in pairs(NonAdminOptions) do
+                local steampro = opt:AddOption(b.name,b.does )
+                steampro:SetIcon("materials/icons/steamlogo.png")
+                steampro:SetIcon(b.icon)
+            end
+            
                 --copyoptsions
                 local copy, optoption = opt:AddSubMenu("Copy")
                 optoption:SetIcon("icon16/page_white_copy.png")
- 
-                --Copy SteamID
-                local copyid = copy:AddOption("Copy SteamID", function()
-                    SetClipboardText(v:SteamID())
-                end)
- 
-                copyid:SetIcon("materials/icons/steamlogo.png")
- 
-                --Copy SteamID64
-                if v:IsBot() == false then
-                    local copyid64 = copy:AddOption("Copy SteamID64", function()
-                        SetClipboardText(v:SteamID64())
-                    end)
- 
-                    copyid64:SetIcon("materials/icons/steamlogo.png")
- 
-                    --Copy Profile URL
-                    local copyprofile = copy:AddOption("Copy Profile URL", function()
-                        SetClipboardText("http://steamcommunity.com/profiles/" .. v:SteamID64())
-                    end)
- 
-                    copyprofile:SetIcon("materials/icons/steamlogo.png")
-                end
- 
-                --copy name
-                local copyname = copy:AddOption("Copy username", function()
-                    SetClipboardText(v:Name())
-                end)
- 
-                copyname:SetIcon("icon16/tag_blue.png")
- 
-                --beyond this are admin options
+                local CopyOptions = {}
+                CopyOptions[1] = {name = "Copy SteamID", icon = "materials/icons/steamlogo.png", does = function() SetClipboardText(v:SteamID()) end}
+                CopyOptions[2] = {name = "Copy SteamID64", icon = "materials/icons/steamlogo.png", does = function()  if v:IsBot() == false then SetClipboardText(v:SteamID64()) else SetClipboardText("BOT") end end}
+                CopyOptions[3] = {name = "Copy Profile URL", icon = "materials/icons/steamlogo.png", does = function() SetClipboardText("http://steamcommunity.com/profiles/" .. v:SteamID64()) end}
+                CopyOptions[4] = {name = "Copy Name", icon = "icon16/tag_blue.png", does = function() SetClipboardText(v:Name()) end}
+
+            for a,b in pairs(CopyOptions) do
+                local copyid = copy:AddOption(b.name, b.does)
+                copyid:SetIcon(b.icon)
+            end
+
                 if table.HasValue(ScoreBoardAdminGroups, LocalPlayer():GetUserGroup()) then
                     opt:AddSpacer()
-                    --move to spectators
-                    local moveteam = opt:AddOption("Move to spectators", function()
-                        RunConsoleCommand("mu_movetospectate", v:EntIndex())
-                    end)
-                    moveteam:SetIcon("icon16/user_go.png")
-                    --Force Murderer next round
-                    local foremurder = opt:AddOption("Force murderer next round", function()
-                        RunConsoleCommand("mu_forcenextmurderer", v:EntIndex())
-                    end)
-                    foremurder:SetIcon("icon16/user_red.png")
-                    --Administartion
+                    local MurderCommands = {}
+                    MurderCommands[1] = {name = "Move to Spectators", icon = "icon16/user_go.png", does = function() RunConsoleCommand("mu_movetospectate", v:EntIndex()) end}
+                    MurderCommands[2] = {name = "Forece Murderer", icon = "icon16/user_red.png", does = function()  RunConsoleCommand("mu_forcenextmurderer", v:EntIndex()) end}
+                for a,b in pairs(MurderCommands) do
+                    local murdercmd = opt:AddOption(b.name, b.does)
+                    murdercmd:SetIcon(b.icon)
+                end
+                
+                    
                     local adm, optoption = opt:AddSubMenu("Administration")
                     optoption:SetIcon("icon16/shield.png")
                     local util, optoption2 = opt:AddSubMenu("Utility")
                     optoption2:SetIcon("icon16/lightning.png")
-                    local tp, optoption2 = opt:AddSubMenu("Teleportation")
-                    optoption2:SetIcon("icon16/lightning.png")
-                    --Xadmin ADMINISTRATION COMMANDS
-                    --Slay
+                   -- local tp, optoption2 = opt:AddSubMenu("Teleportation")
+--optoption2:SetIcon("icon16/lightning.png")
+                    
                     if DriedSpongeMurderScoreboardXADMIN == "xadmin" then
-                        local slay = adm:AddOption("Slay " .. v:Name(), function()
+                    local XadminReasonOnly = {}
+                    XadminReasonOnly[1] = {name = "Slay " .. v:Name(), icon = "materials/icons/slay.png", cmd = "xadmin_slay", time = false }
+                    XadminReasonOnly[2] = {name = "Kick " .. v:Name(), icon = "materials/icons/kick.png", cmd = "xadmin_kick", time = false}
+                    XadminReasonOnly[3] = {name = "Ban " .. v:Name(), icon = "materials/icons/gavel.png", cmd = "xadmin_ban", time = true }
+                    for a,b in pairs(XadminReasonOnly) do
+                        local slay = adm:AddOption(b.name, function()
                             local frame = vgui.Create("DFrame")
+                            if b.time == false then
                             frame:SetSize(400, 100)
+                            else
+                            frame:SetSize(400, 145)
+                            end
                             frame:TDLib()
                             frame:Center()
-                            frame:SetTitle("Slay "..v:Name())
+                            frame:SetTitle(b.name)
                             frame:MakePopup()
                             frame.lblTitle:SetFont("Murder_ScoreBoardFont")
                             frame.lblTitle:SetTextColor(DriedSpongeMurderScoreboardServerTextColor)
                             frame:ClearPaint()
+                            frame:Blur()
                             frame:Background(DriedSpongeMurderScoreboardBG)
                             frame:Outline(DriedSpongeMurderScoreboardServerTextColor)
+                            if b.time == true then
+                                local time = vgui.Create("DLabel", frame)
+                                time:Dock(TOP)
+                                time:SetText("Time (Minutes, 0 for perma)")
+                                time:SetFont("Murder_ScoreBoardFontSSmall")
+                                time:SetColor(DriedSpongeMurderScoreboardServerTextColor)
+                                local DNumberWang = vgui.Create( "DNumberWang", frame )
+                                DNumberWang:Dock(TOP)		
+                                DNumberWang:SetSize( 100, 25 )		
+                                DNumberWang:SetMin( 0 )				
+                                DNumberWang:SetMax( 100000 )				
+                                DNumberWang:SetDecimals( 0 )
+                                end
                             local rson = vgui.Create("DLabel", frame)
                             rson:Dock(TOP)
                             rson:SetText("Reason")
@@ -319,78 +334,15 @@ local function ToggleScoreboard(toggle)
                             TextEntry:Dock(BOTTOM)
                             TextEntry:SetText("")
                             TextEntry.OnEnter = function(self)
-                                RunConsoleCommand("xadmin_slay", v:SteamID(), self:GetValue())
+                                if b.time == false then 
+                                RunConsoleCommand(b.cmd, v:SteamID(), self:GetValue())
                                 frame:Close()
-                            end  end)    slay:SetIcon("materials/icons/slay.png")
-                            local kick = adm:AddOption("Kick " .. v:Name(), function()
-                                local frame = vgui.Create("DFrame")
-                                frame:SetSize(400, 100)
-                                frame:TDLib()
-                                frame:Center()
-                                frame:SetTitle("Kick "..v:Name())
-                                frame:MakePopup()
-                                frame.lblTitle:SetFont("Murder_ScoreBoardFont")
-                                frame.lblTitle:SetTextColor(DriedSpongeMurderScoreboardServerTextColor)
-                                frame:ClearPaint()
-                                frame:Background(DriedSpongeMurderScoreboardBG)
-                                frame:Outline(DriedSpongeMurderScoreboardServerTextColor)
-                                local rson = vgui.Create("DLabel", frame)
-                                rson:Dock(TOP)
-                                rson:SetText("Reason")
-                                rson:SetFont("Murder_ScoreBoardFontSSmall")
-                                rson:SetSize(40, 15)
-                                rson:SetColor(DriedSpongeMurderScoreboardServerTextColor)
-                                local TextEntry = vgui.Create("DTextEntry", frame)
-                                TextEntry:SetPos(25, 50)
-                                TextEntry:SetSize(75, 40)
-                                TextEntry:SetTextColor(DriedSpongeMurderScoreboardServerTextColor)
-                                TextEntry:SetFont("Murder_ScoreBoardFont")
-                                TextEntry:Dock(BOTTOM)
-                                TextEntry:SetText("")
-                                TextEntry.OnEnter = function(self)
-                                    RunConsoleCommand("xadmin_kick", v:SteamID(), self:GetValue())
+                                else
+                                    RunConsoleCommand(b.cmd, v:SteamID(), DNumberWang:GetValue(), self:GetValue())
                                     frame:Close()
-                                end  end)    kick:SetIcon("materials/icons/kick.png")
-                                local ban = adm:AddOption("Ban " .. v:Name(), function()
-                                    local bframe = vgui.Create("DFrame")
-                                    bframe:SetSize(400, 145)
-                                    bframe:TDLib()
-                                    bframe:Center()
-                                    bframe:SetTitle("Ban "..v:Name())
-                                    bframe:MakePopup()
-                                    bframe.lblTitle:SetFont("Murder_ScoreBoardFont")
-                                    bframe.lblTitle:SetTextColor(DriedSpongeMurderScoreboardServerTextColor)
-                                    bframe:ClearPaint()
-                                    bframe:Background(DriedSpongeMurderScoreboardBG)
-                                    bframe:Outline(DriedSpongeMurderScoreboardServerTextColor)
-                                    local time = vgui.Create("DLabel", bframe)
-                                    time:Dock(TOP)
-                                    time:SetText("Time (Minutes, 0 for perma)")
-                                    time:SetFont("Murder_ScoreBoardFontSSmall")
-                                    time:SetColor(DriedSpongeMurderScoreboardServerTextColor)
-                                    local DNumberWang = vgui.Create( "DNumberWang", bframe )
-                                    DNumberWang:Dock(TOP)		
-                                    DNumberWang:SetSize( 100, 25 )		
-                                    DNumberWang:SetMin( 0 )				
-                                    DNumberWang:SetMax( 100000 )				
-                                    DNumberWang:SetDecimals( 0 )
-                                    local rson = vgui.Create("DLabel", bframe)
-                                    rson:Dock(TOP)
-                                    rson:SetText("Reason")
-                                    rson:SetSize(40, 15)
-                                    rson:SetFont("Murder_ScoreBoardFontSSmall")
-                                    rson:SetColor(DriedSpongeMurderScoreboardServerTextColor)		
-                                    local TextEntry = vgui.Create("DTextEntry", bframe)
-                                    TextEntry:SetPos(25, 50)
-                                    TextEntry:SetSize(75, 40)
-                                    TextEntry:SetTextColor(DriedSpongeMurderScoreboardServerTextColor)
-                                    TextEntry:SetFont("Murder_ScoreBoardFont")
-                                    TextEntry:Dock(BOTTOM)
-                                    TextEntry:SetText("")
-                                    TextEntry.OnEnter = function(self)
-                                        RunConsoleCommand("xadmin_ban", v:SteamID(), DNumberWang:GetValue(), self:GetValue())
-                                        bframe:Close()
-                                    end  end)    ban:SetIcon("materials/icons/gavel.png")
+                                end
+                            end  end)    slay:SetIcon(b.icon)
+                        end
                                     if v:GetNWBool("xAdminGagged") == false then
                                     local gag = adm:AddOption("Gag " .. v:Name(), function()
                                         local gframe = vgui.Create("DFrame")
@@ -436,27 +388,31 @@ local function ToggleScoreboard(toggle)
                                                     RunConsoleCommand("xadmin_ungag", v:SteamID())
                                                  end)    ungag:SetIcon("icon16/sound.png")
                                                  end
-
-                                                 if v:GetNWBool("xAdminGod") == false  then 
-                                                     godtxt = "God"
-                                                     godcmd = "xadmin_god" 
+                                                 local XadminToggleUtils = {}
+                                                 XadminToggleUtils[1] = {name = "God " .. v:Name(),name2 = "Ungod " .. v:Name(),cmdon = "xadmin_god" ,cmdoff = "xadmin_ungod", icon = "materials/icons/slay.png", bool = "xAdminGod"}
+                                                XadminToggleUtils[2] = {name = "Cloak " .. v:Name(),name2 = "Uncloak " .. v:Name(),cmdon = "xadmin_cloak" ,cmdoff = "xadmin_uncloak", icon = "materials/icons/slay.png", bool = "xAdminCloaked"}
+                                                for a,b in pairs(XadminToggleUtils) do 
+                                                 if v:GetNWBool(b.bool) == false  then 
+                                                     godtxt = b.name
+                                                     godcmd = b.cmdon
                                                 else
-                                                     godtxt = "Un-God"    
-                                                     godcmd = "xadmin_ungod" 
+                                                     godtxt = b.name2
+                                                     godcmd = b.cmdoff
                                                 end
-                                                 local god = util:AddOption(godtxt.." "..v:Name(), function()
+                                                 local god = util:AddOption(godtxt, function()
                                                         RunConsoleCommand(godcmd, v:SteamID())  
                                                      end)    
-                                                     god:SetIcon("materials/icons/gavel.png")
+                                                     god:SetIcon(b.icon)
+                                                    end
                                                 if v ~= LocalPlayer() then
                                                     local tp, optoption3 = opt:AddSubMenu("Teleportation")
                                                     optoption3:SetIcon("icon16/arrow_out.png")
                                                      local gto = tp:AddOption("Goto "..v:Name(), function()
-                                                        RunConsoleCommand("xadmin_goto", v:SteamID())  
+                                                        RunConsoleCommand("xadmin_goto", v:Name())  
                                                      end)    
                                                      gto:SetIcon("icon16/arrow_left.png")
                                                      local brg = tp:AddOption("Bring "..v:Name(), function()
-                                                        RunConsoleCommand("xadmin_tp", v:SteamID())  
+                                                        RunConsoleCommand("xadmin_bring", v:Name())  
                                                      end)    
                                                      brg:SetIcon("icon16/arrow_right.png")
                                                 end
