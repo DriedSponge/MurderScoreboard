@@ -6,17 +6,9 @@ surface.CreateFont("Murder_ScoreBoardFont", {
     extended = false,
     size = 25,
     weight = 1000,
-    blursize = 0,
-    scanlines = 0,
-    antialias = true,
-    underline = false,
-    italic = false,
-    strikeout = false,
-    symbol = false,
-    rotary = false,
-    shadow = false,
-    additive = false,
-    outline = false
+
+    antialias = true
+
 })
 surface.CreateFont("Murder_ScoreBoardTOPFont", {
     font = "Roboto", -- Use the font-name which is shown to you by your operating system Font Viewer, not the file name
@@ -25,15 +17,8 @@ surface.CreateFont("Murder_ScoreBoardTOPFont", {
     weight = 1000,
     blursize = 0,
     scanlines = 0,
-    antialias = true,
-    underline = false,
-    italic = false,
-    strikeout = false,
-    symbol = false,
-    rotary = false,
-    shadow = false,
-    additive = false,
-    outline = false
+    antialias = true
+
 })
 surface.CreateFont("Murder_ScoreBoardFontPing", {
     font = "Roboto", -- Use the font-name which is shown to you by your operating system Font Viewer, not the file name
@@ -389,21 +374,34 @@ local function ToggleScoreboard(toggle)
                                                  end)    ungag:SetIcon("icon16/sound.png")
                                                  end
                                                  local XadminToggleUtils = {}
-                                                 XadminToggleUtils[1] = {name = "God " .. v:Name(),name2 = "Ungod " .. v:Name(),cmdon = "xadmin_god" ,cmdoff = "xadmin_ungod", icon = "materials/icons/slay.png", bool = "xAdminGod"}
-                                                XadminToggleUtils[2] = {name = "Cloak " .. v:Name(),name2 = "Uncloak " .. v:Name(),cmdon = "xadmin_cloak" ,cmdoff = "xadmin_uncloak", icon = "materials/icons/slay.png", bool = "xAdminCloaked"}
-                                                for a,b in pairs(XadminToggleUtils) do 
-                                                 if v:GetNWBool(b.bool) == false  then 
-                                                     godtxt = b.name
-                                                     godcmd = b.cmdon
+                                            
+                                                
+                                               -- GOD MODE
+                                                 if v:GetNWBool("xAdminGod") == false  then 
+                                                     godtxt = "God " .. v:Name()
+                                                     godcmd = "xadmin_god"
                                                 else
-                                                     godtxt = b.name2
-                                                     godcmd = b.cmdoff
+                                                     godtxt = "Ungod " .. v:Name()
+                                                     godcmd = "xadmin_ungod"
                                                 end
                                                  local god = util:AddOption(godtxt, function()
                                                         RunConsoleCommand(godcmd, v:SteamID())  
                                                      end)    
-                                                     god:SetIcon(b.icon)
-                                                    end
+                                                     god:SetIcon("materials/icons/slay.png")
+                                                    --CLOAK
+                                                     if v:GetNWBool("xAdminCloaked") == false  then 
+                                                        cltxt = "Cloak " .. v:Name()
+                                                        clcmd = "xadxadmin_cloak"
+                                                   else
+                                                        cltxt = "Uncloak " .. v:Name()
+                                                        clcmd = "xadmin_uncloak"
+                                                   end
+                                                    local cl = util:AddOption(cltxt, function()
+                                                           RunConsoleCommand(clcmd, v:SteamID())  
+                                                        end)    
+                                                        cl:SetIcon("materials/icons/slay.png")
+
+                                                --TELEPORTATION
                                                 if v ~= LocalPlayer() then
                                                     local tp, optoption3 = opt:AddSubMenu("Teleportation")
                                                     optoption3:SetIcon("icon16/arrow_out.png")
