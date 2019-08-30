@@ -27,15 +27,8 @@ surface.CreateFont("Murder_ScoreBoardFontPing", {
     weight = 1000,
     blursize = 0,
     scanlines = 0,
-    antialias = true,
-    underline = false,
-    italic = false,
-    strikeout = false,
-    symbol = false,
-    rotary = false,
-    shadow = false,
-    additive = false,
-    outline = false
+    antialias = true
+
 })
  
 surface.CreateFont("Murder_ScoreBoardFontUnderline", {
@@ -45,15 +38,8 @@ surface.CreateFont("Murder_ScoreBoardFontUnderline", {
     weight = 500,
     blursize = 0,
     scanlines = 0,
-    antialias = true,
-    underline = true,
-    italic = false,
-    strikeout = false,
-    symbol = false,
-    rotary = false,
-    shadow = false,
-    additive = false,
-    outline = false
+    antialias = true
+
 })
  
 surface.CreateFont("Murder_ScoreBoardFontSmall", {
@@ -63,15 +49,8 @@ surface.CreateFont("Murder_ScoreBoardFontSmall", {
     weight = 500,
     blursize = 0,
     scanlines = 0,
-    antialias = true,
-    underline = false,
-    italic = false,
-    strikeout = false,
-    symbol = false,
-    rotary = false,
-    shadow = false,
-    additive = false,
-    outline = false
+    antialias = true
+
 })
 surface.CreateFont("Murder_ScoreBoardFontSSmall", {
     font = "Arial", -- Use the font-name which is shown to you by your operating system Font Viewer, not the file name
@@ -80,15 +59,7 @@ surface.CreateFont("Murder_ScoreBoardFontSSmall", {
     weight = 650,
     blursize = 0,
     scanlines = 0,
-    antialias = true,
-    underline = false,
-    italic = false,
-    strikeout = false,
-    symbol = false,
-    rotary = false,
-    shadow = false,
-    additive = false,
-    outline = false
+    antialias = true
 })
 surface.CreateFont("Murder_ScoreBoardFontSmall2", {
     font = "Roboto", -- Use the font-name which is shown to you by your operating system Font Viewer, not the file name
@@ -97,15 +68,7 @@ surface.CreateFont("Murder_ScoreBoardFontSmall2", {
     weight = 700,
     blursize = 0,
     scanlines = 0,
-    antialias = true,
-    underline = false,
-    italic = false,
-    strikeout = false,
-    symbol = false,
-    rotary = false,
-    shadow = false,
-    additive = false,
-    outline = false
+    antialias = true
 })
  
 local function ToggleScoreboard(toggle)
