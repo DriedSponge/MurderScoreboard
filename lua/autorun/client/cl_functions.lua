@@ -122,12 +122,13 @@ function scoreboardoptions(v)
                     RunConsoleCommand(b.cmd, v:SteamID(), self:GetValue())
                     frame:Close()
                     else
-                        RunConsoleCommand(b.cmd, v:SteamID(), DNumberWang:GetValue(), self:GetValue())
+                       RunConsoleCommand(b.cmd, v:SteamID(), DNumberWang:GetValue(), self:GetValue())
                         frame:Close()
                     end
                 end  end)    slay:SetIcon(b.icon)
             end
         end
+        if LocalPlayer():xAdminHasPermission("gag")  then
                         if v:GetNWBool("xAdminGagged") == false then
                         local gag = adm:AddOption("Gag " .. v:Name(), function()
                             local gframe = vgui.Create("DFrame")
@@ -173,7 +174,7 @@ function scoreboardoptions(v)
                                         RunConsoleCommand("xadmin_ungag", v:SteamID())
                                      end)    ungag:SetIcon("icon16/sound.png")
                                      end
-                                     local XadminToggleUtils = {}
+                                    end
                                 
                                     
                                    -- GOD MODE

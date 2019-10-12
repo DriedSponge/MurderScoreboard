@@ -22,7 +22,7 @@ DriedSpongeMurderScoreboardBG = Color(0, 0, 0, 170)
 --No Touchy
 hook.Add( "OnGamemodeLoaded", "dsmsbperms", function()
     if DSMSBAdminSystem == "xadmin" then
-    xAdmin.RegisterCategory("mursb","Scoreboard","icon16/tag_blue.png")
+    xAdmin.RegisterCategory("mursb","Scoreboard","icon16/application_tile_horizontal.png")
     xAdmin.RegisterPermission("sbcopy", "Copy player data (access to copy options)", "mursb") 
     xAdmin.RegisterPermission("sbopenprofile", "Open Profiles", "mursb") 
     xAdmin.RegisterPermission("sbadmin", "Access to admin options", "mursb") 

@@ -32,11 +32,11 @@ surface.CreateFont("Murder_ScoreBoardFontPing", {
 
 })
  
-surface.CreateFont("Murder_ScoreBoardFontUnderline", {
-    font = "Roboto", -- Use the font-name which is shown to you by your operating system Font Viewer, not the file name
+surface.CreateFont("Murder_ScoreBoardFontGroup", {
+    font = "Arial", -- Use the font-name which is shown to you by your operating system Font Viewer, not the file name
     extended = false,
-    size = 25,
-    weight = 500,
+    size = 23,
+    weight = 700,
     blursize = 0,
     scanlines = 0,
     antialias = true
@@ -170,7 +170,7 @@ local function ToggleScoreboard(toggle)
             playerpanel:Background(Color(0, 0, 0, 200))
             playerpanel:SetText("")
             playerpanel:BarHover(Color(255, 0, 0, 255), 3)
-            playerpanel:DualText(v:Name(), "Murder_ScoreBoardFont", DSMSPrimaryTextColor, v:GetUserGroup(), "Murder_ScoreBoardFontSmall", v:xAdminGetColor(), TEXT_ALIGN_CENTER)
+            playerpanel:DualText(v:Name(), "Murder_ScoreBoardFont", DSMSPrimaryTextColor, v:GetUserGroup(), "Murder_ScoreBoardFontGroup", v:xAdminGetColor(), TEXT_ALIGN_CENTER)
  
             playerpanel.DoClick = function()
                 scoreboardoptions(v)
@@ -200,7 +200,7 @@ local function ToggleScoreboard(toggle)
         playerpanel2:Background(Color(0, 0, 0, 200))
         playerpanel2:SetText("")
         playerpanel2:BarHover(Color(255, 0, 0, 255), 3)
-        playerpanel2:DualText(v:Name(), "Murder_ScoreBoardFont", DSMSPrimaryTextColor, v:GetUserGroup(), "Murder_ScoreBoardFontSmall", v:xAdminGetColor(), TEXT_ALIGN_CENTER)
+        playerpanel2:DualText(v:Name(), "Murder_ScoreBoardFont", DSMSPrimaryTextColor, v:GetUserGroup(), "Murder_ScoreBoardFontGroup", v:xAdminGetColor(), TEXT_ALIGN_CENTER)
  
         playerpanel2.DoClick = function()
             scoreboardoptions(v)
