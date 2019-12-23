@@ -235,7 +235,3 @@ hook.Add("ScoreboardHide", "CustomHidscoreboard", function()
 end)
 
 
---[ERROR] addons/scoreboard/lua/autorun/client/cl_sb.lua:318: attempt to index global 'v' (a nil value)
-  --1. ToggleScoreboard - addons/scoreboard/lua/autorun/client/cl_sb.lua:318
-  -- 2. v - addons/scoreboard/lua/autorun/client/cl_sb.lua:395
-    --3. unknown - lua/includes/modules/hook.lua:84

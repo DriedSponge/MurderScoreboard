@@ -60,147 +60,20 @@ function scoreboardoptions(v)
     end
     
         
-        local adm, optoption = opt:AddSubMenu("Administration")
-        optoption:SetIcon("icon16/shield.png")
-        local util, optoption2 = opt:AddSubMenu("Utility")
-        optoption2:SetIcon("icon16/lightning.png")
+        
+        
        -- local tp, optoption2 = opt:AddSubMenu("Teleportation")
     --optoption2:SetIcon("icon16/lightning.png")
         
         
-        local XadminReasonOnly = {}
-        XadminReasonOnly[1] = {name = "Slay " .. v:Name(), icon = "materials/icons/slay.png", cmd = "xadmin_slay", time = false, check = "slay" }
-        XadminReasonOnly[2] = {name = "Kick " .. v:Name(), icon = "materials/icons/kick.png", cmd = "xadmin_kick", time = false, check = "kick"}
-        XadminReasonOnly[3] = {name = "Ban " .. v:Name(), icon = "materials/icons/gavel.png", cmd = "xadmin_ban", time = true, check = "ban" }
-        for a,b in pairs(XadminReasonOnly) do
-            if LocalPlayer():xAdminHasPermission(b.check)  then
-            local slay = adm:AddOption(b.name, function()
-                local frame = vgui.Create("DFrame")
-                if b.time == false then
-                frame:SetSize(400, 100)
-                else
-                frame:SetSize(400, 145)
-                end
-                frame:TDLib()
-                frame:Center()
-                frame:SetTitle(b.name)
-                frame:MakePopup()
-                frame.lblTitle:SetFont("Murder_ScoreBoardFont")
-                frame.lblTitle:SetTextColor(DSMSPrimaryTextColor)
-                frame:ClearPaint()
-                frame:Blur()
-                frame:Background(DSMSBGColor)
-                frame:Outline(DSMSPrimaryTextColor)
-                if b.time == true then
-                    local time = vgui.Create("DLabel", frame)
-                    time:Dock(TOP)
-                    time:SetText("Time (Minutes, 0 for perma)")
-                    time:SetFont("Murder_ScoreBoardFontSSmall")
-                    time:SetColor(DSMSPrimaryTextColor)
-                    local DNumberWang = vgui.Create( "DNumberWang", frame )
-                    DNumberWang:Dock(TOP)		
-                    DNumberWang:SetSize( 100, 25 )		
-                    DNumberWang:SetMin( 0 )				
-                    DNumberWang:SetMax( 100000 )				
-                    DNumberWang:SetDecimals( 0 )
-                    end
-                local rson = vgui.Create("DLabel", frame)
-                rson:Dock(TOP)
-                rson:SetText("Reason")
-                rson:SetFont("Murder_ScoreBoardFontSSmall")
-                rson:SetSize(40, 15)
-                rson:SetColor(DSMSPrimaryTextColor)
-                local TextEntry = vgui.Create("DTextEntry", frame)
-                TextEntry:SetPos(25, 50)
-                TextEntry:SetSize(75, 40)
-                TextEntry:SetTextColor(DSMSPrimaryTextColor)
-                TextEntry:SetFont("Murder_ScoreBoardFont")
-                TextEntry:Dock(BOTTOM)
-                TextEntry:SetText("")
-                TextEntry.OnEnter = function(self)
-                    if b.time == false then 
-                    RunConsoleCommand(b.cmd, v:SteamID(), self:GetValue())
-                    frame:Close()
-                    else
-                       RunConsoleCommand(b.cmd, v:SteamID(), DNumberWang:GetValue(), self:GetValue())
-                        frame:Close()
-                    end
-                end  end)    slay:SetIcon(b.icon)
-            end
-        end
-        if LocalPlayer():xAdminHasPermission("gag")  then
-                        if v:GetNWBool("xAdminGagged") == false then
-                        local gag = adm:AddOption("Gag " .. v:Name(), function()
-                            local gframe = vgui.Create("DFrame")
-                            gframe:SetSize(400, 145)
-                            gframe:TDLib()
-                            gframe:Center()
-                            gframe:SetTitle("Gag "..v:Name())
-                            gframe:MakePopup()
-                            gframe.lblTitle:SetFont("Murder_ScoreBoardFont")
-                            gframe.lblTitle:SetTextColor(DSMSPrimaryTextColor)
-                            gframe:ClearPaint()
-                            gframe:Background(DSMSBGColor)
-                            gframe:Outline(DSMSPrimaryTextColor)
-                            local time = vgui.Create("DLabel", gframe)
-                            time:Dock(TOP)
-                            time:SetText("Time (Minutes, 0 for perma)")
-                            time:SetFont("Murder_ScoreBoardFontSSmall")
-                            time:SetColor(DSMSPrimaryTextColor)
-                            local DNumberWang = vgui.Create( "DNumberWang", gframe )
-                            DNumberWang:Dock(TOP)		
-                            DNumberWang:SetSize( 100, 25 )		
-                            DNumberWang:SetMin( 0 )				
-                            DNumberWang:SetMax( 100000 )				
-                            DNumberWang:SetDecimals( 0 )
-                            local rson = vgui.Create("DLabel", gframe)
-                            rson:Dock(TOP)
-                            rson:SetText("Reason")
-                            rson:SetSize(40, 15)
-                            rson:SetFont("Murder_ScoreBoardFontSSmall")
-                            rson:SetColor(DSMSPrimaryTextColor)		
-                            local TextEntry = vgui.Create("DTextEntry", gframe)
-                            TextEntry:SetPos(25, 50)
-                            TextEntry:SetSize(75, 40)
-                            TextEntry:SetTextColor(DSMSPrimaryTextColor)
-                            TextEntry:SetFont("Murder_ScoreBoardFont")
-                            TextEntry:Dock(BOTTOM)
-                            TextEntry:SetText("")
-                            TextEntry.OnEnter = function(self)
-                                RunConsoleCommand("xadmin_gag", v:SteamID(), DNumberWang:GetValue(), self:GetValue())
-                                gframe:Close()
-                            end  end)    gag:SetIcon("icon16/sound_mute.png") else 
-                                local ungag = adm:AddOption("Un-Gag " .. v:Name(), function()
-                                        RunConsoleCommand("xadmin_ungag", v:SteamID())
-                                     end)    ungag:SetIcon("icon16/sound.png")
-                                     end
-                                    end
+        -- local XadminReasonOnly = {}
+        -- XadminReasonOnly[1] = {name = "Slay " .. v:Name(), icon = "materials/icons/slay.png", cmd = "xadmin_slay", time = false, check = "slay" }
+        -- XadminReasonOnly[2] = {name = "Kick " .. v:Name(), icon = "materials/icons/kick.png", cmd = "xadmin_kick", time = false, check = "kick"}
+        -- XadminReasonOnly[3] = {name = "Ban " .. v:Name(), icon = "materials/icons/gavel.png", cmd = "xadmin_ban", time = true, check = "ban" }
+
                                 
                                     
-                                   -- GOD MODE
-                                     if v:GetNWBool("xAdminGod") == false  then 
-                                         godtxt = "God " .. v:Name()
-                                         godcmd = "xadmin_god"
-                                    else
-                                         godtxt = "Ungod " .. v:Name()
-                                         godcmd = "xadmin_ungod"
-                                    end
-                                     local god = util:AddOption(godtxt, function()
-                                            RunConsoleCommand(godcmd, v:SteamID())  
-                                         end)    
-                                         god:SetIcon("materials/icons/slay.png")
-                                        --CLOAK
-                                         if v:GetNWBool("xAdminCloaked") == false  then 
-                                            cltxt = "Cloak " .. v:Name()
-                                            clcmd = "xadxadmin_cloak"
-                                       else
-                                            cltxt = "Uncloak " .. v:Name()
-                                            clcmd = "xadmin_uncloak"
-                                       end
-                                        local cl = util:AddOption(cltxt, function()
-                                               RunConsoleCommand(clcmd, v:SteamID())  
-                                            end)    
-                                            cl:SetIcon("materials/icons/slay.png")
+                                   
     
                                     --TELEPORTATION
                                     if v ~= LocalPlayer() then
